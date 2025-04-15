@@ -1,0 +1,41 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export default function QtKorrekturTool() {
+  const [qt, setQt] = useState(500);
+  const [qrs, setQrs] = useState(160);
+  const [hr, setHr] = useState(60);
+
+  const qtCorr = qt - 0.5 * qrs;
+  const qtcHodges = qtCorr + 1.75 * (hr - 60);
+
+  return (
+    <div className="grid gap-6 max-w-md mx-auto p-4">
+      <h1 className="text-2xl font-bold text-center">QT-Korrektur bei LSB (Bogossian + Hodges)</h1>
+
+      <Card>
+        <CardContent className="space-y-4 p-4">
+          <div>
+            <Label>QT (ms)</Label>
+            <Input type="number" value={qt} onChange={(e) => setQt(Number(e.target.value))} />
+          </div>
+          <div>
+            <Label>QRS (ms)</Label>
+            <Input type="number" value={qrs} onChange={(e) => setQrs(Number(e.target.value))} />
+          </div>
+          <div>
+            <Label>Herzfrequenz (bpm)</Label>
+            <Input type="number" value={hr} onChange={(e) => setHr(Number(e.target.value))} />
+          </div>
+
+          <div className="pt-4 border-t mt-4">
+            <p><strong>QT (Bogossian korrigiert):</strong> {qtCorr.toFixed(1)} ms</p>
+            <p><strong>QTc (Hodges):</strong> {qtcHodges.toFixed(1)} ms</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
